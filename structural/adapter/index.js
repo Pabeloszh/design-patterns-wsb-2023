@@ -1,26 +1,35 @@
 class WordFile {
     constructor(blob) {
-      this.blob = blob;
+        this.blob = blob;
     }
   
     getBlob() {
-      return this.blob;
+        return this.blob;
     }
 }
   
-class WordFileToPdfAdapter {
+class PdfFile {
+    constructor(blob) {
+        this.blob = blob;
+    }
+  
+    getBlob() {
+        return this.blob;
+    }
+}
+  
+class WordToPdfAdapter {
     constructor(wordFile) {
-      this.wordFile = wordFile;
+        this.wordFile = wordFile;
     }
   
     getBlob() {
-      const wordBlob = this.wordFile.getBlob();
-      const pdfBlob = new Blob(["PDF ", wordBlob], {type: "application/pdf"});
-      return pdfBlob;
+        const wordBlob = this.wordFile.getBlob();
+        const pdfBlob = new Blob(["PDF ", wordBlob], { type: "application/pdf" });
+        return new PdfFile(pdfBlob);
     }
 }
   
-const myWordBlob = new Blob(["Some Word data"], {type: "application/msword"});
-const myWordFile = new WordFile(myWordBlob);
-const myWordFileToPdfAdapter = new WordFileToPdfAdapter(myWordFile);
-console.log(myWordFileToPdfAdapter.getBlob());
+const wordBlob = new Blob(["Hello, World!"], { type: "application/msword" });
+const wordFile = new WordFile(wordBlob);
+const pdfFile = new WordToPdfAdapter(wordFile).getBlob();
